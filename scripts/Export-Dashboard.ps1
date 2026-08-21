@@ -63,8 +63,8 @@ $($pills -join "`n")
     $svg | Set-Content -LiteralPath $Path -Encoding utf8
 }
 
-$light = @{bg='#f8fafc';line='#dbe4ea';muted='#475569';faint='#64748b';accent='#1677b8'}
-$dark = @{bg='#0b1220';line='#26354a';muted='#a9b7ca';faint='#73849b';accent='#38a9ef'}
+$light = @{bg='#f8fafc';line='#dbe4df';muted='#475b55';faint='#647d75';accent='#0f8f78'}
+$dark = @{bg='#0b1412';line='#263d37';muted='#a9c2ba';faint='#738f86';accent='#35c9a5'}
 Render $light $OutputPath
 Render $dark $DarkOutputPath
 Write-Host "Wrote Docker status cards to $OutputPath and $DarkOutputPath"

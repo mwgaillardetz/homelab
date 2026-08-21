@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="422" viewBox="0 0 840 422" role="img" aria-label="Docker homelab status">
 <style>
-text{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif}.value{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:25px;font-weight:700;fill:#38a9ef}.label{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:11px;font-weight:600;fill:#73849b}.sub{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:12px;font-weight:500;fill:#a9b7ca}.pill{fill:#38a9ef;fill-opacity:.12;stroke:#38a9ef}.pilltext{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif;font-size:11px;font-weight:600;fill:#38a9ef}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
+text{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif}.value{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:25px;font-weight:700;fill:#35c9a5}.label{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:11px;font-weight:600;fill:#738f86}.sub{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:12px;font-weight:500;fill:#a9c2ba}.pill{fill:#35c9a5;fill-opacity:.12;stroke:#35c9a5}.pilltext{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif;font-size:11px;font-weight:600;fill:#35c9a5}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
 </style>
-<rect x=".5" y=".5" width="839" height="421" rx="14" fill="#0b1220" stroke="#26354a"/>
-<rect width="840" height="2" rx="1" fill="#38a9ef"/>
-<circle class="pulse" cx="47" cy="38" r="5" fill="#38a9ef"/><text x="61" y="42" class="label">DOCKER · LIVE</text>
+<rect x=".5" y=".5" width="839" height="421" rx="14" fill="#0b1412" stroke="#263d37"/>
+<rect width="840" height="2" rx="1" fill="#35c9a5"/>
+<circle class="pulse" cx="47" cy="38" r="5" fill="#35c9a5"/><text x="61" y="42" class="label">DOCKER · LIVE</text>
 <text x="798" y="42" class="sub" text-anchor="end">docker-desktop · Docker 29.4.0</text>
 <text x='42' y='105' class='value'>44/47</text><text x='42' y='128' class='label'>CONTAINERS</text><text x='42' y='148' class='sub'>running</text>
 <text x='240' y='105' class='value'>26</text><text x='240' y='128' class='label'>COMPOSE PROJECTS</text><text x='240' y='148' class='sub'>declared</text>
 <text x='438' y='105' class='value'>20</text><text x='438' y='128' class='label'>HEALTHY</text><text x='438' y='148' class='sub'>0 unhealthy</text>
 <text x='636' y='105' class='value'>46</text><text x='636' y='128' class='label'>IMAGES</text><text x='636' y='148' class='sub'>distinct</text>
-<line x1="42" y1="174" x2="798" y2="174" stroke="#26354a"/>
+<line x1="42" y1="174" x2="798" y2="174" stroke="#263d37"/>
 <text x="42" y="202" class="label">COMPOSE PROJECTS</text>
 <rect x='42' y='220' width='72' height='27' rx='13.5' class='pill'/><text x='78' y='238' class='pilltext' text-anchor='middle'>atlas</text>
 <rect x='123' y='220' width='141' height='27' rx='13.5' class='pill'/><text x='193.5' y='238' class='pilltext' text-anchor='middle'>azerothcore-wotlk</text>
@@ -38,5 +38,5 @@ text{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif}.value{font-family:
 <rect x='123' y='334' width='72' height='27' rx='13.5' class='pill'/><text x='159' y='352' class='pilltext' text-anchor='middle'>qbitui</text>
 <rect x='204' y='334' width='72' height='27' rx='13.5' class='pill'/><text x='240' y='352' class='pilltext' text-anchor='middle'>tautuli</text>
 <rect x='285' y='334' width='78' height='27' rx='13.5' class='pill'/><text x='324' y='352' class='pilltext' text-anchor='middle'>trillium</text>
-<text x="42" y="397" class="sub">source · local Docker API · generated 2026-08-21 13:14 -04:00</text>
+<text x="42" y="397" class="sub">source · local Docker API · generated 2026-08-21 13:16 -04:00</text>
 </svg>
