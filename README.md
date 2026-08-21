@@ -2,7 +2,7 @@
 
 <div align="center">
 
-### Homelab infrastructure, as code
+### Homelab infrastructure as code
 
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 [![Validate](https://github.com/mwgaillardetz/homelab/actions/workflows/validate.yml/badge.svg)](https://github.com/mwgaillardetz/homelab/actions/workflows/validate.yml)
@@ -40,26 +40,13 @@ scripts/                Discovery, import, dashboard, and validation helpers
 .github/workflows/      Automated validation and security scanning
 ```
 
-## Refresh generated content
-
-```powershell
-./scripts/Export-Inventory.ps1
-./scripts/Export-Dashboard.ps1
-```
-
-These scripts read Docker metadata only. They never export environment values,
-secret values, container logs, or mounted file contents. The `stash` project is
-hard-excluded from every generated public artifact.
-
 ## Refresh sanitized Compose files
 
 ```powershell
 ./scripts/Import-Compose.ps1
 ```
 
-The importer discovers active Compose projects from Docker labels, permanently
-excludes `stash`, replaces secret-shaped literal assignments with `${VARIABLE}`
-references, and creates safe `.env.example` files.
+The importer discovers active Compose projects from Docker labels, replaces secret-shaped literal assignments with `${VARIABLE}` references, and creates safe `.env.example` files.
 
 ## Validate Compose files
 
