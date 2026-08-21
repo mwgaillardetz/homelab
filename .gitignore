@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+*.secret
+secrets/
+data/
+backups/
+*.log
+.DS_Store
+Thumbs.db
