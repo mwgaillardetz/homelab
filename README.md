@@ -8,8 +8,8 @@
 [![Validate](https://github.com/mwgaillardetz/homelab/actions/workflows/validate.yml/badge.svg)](https://github.com/mwgaillardetz/homelab/actions/workflows/validate.yml)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/status-dark.svg">
-  <img alt="Live Docker homelab status" src="docs/status.svg" width="840">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/status-dark.svg?v=3">
+  <img alt="Live Docker homelab status" src="docs/status.svg?v=3" width="840">
 </picture>
 
 </div>

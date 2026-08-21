@@ -20,6 +20,9 @@ $unhealthy = @($items | Where-Object { $_.State.Health -and $_.State.Health.Stat
 $images = @($items.Config.Image | Sort-Object -Unique).Count
 $engine = docker info --format '{{json .}}' | ConvertFrom-Json
 $generated = Get-Date -Format 'yyyy-MM-dd HH:mm K'
+$fontRoot = Join-Path $PSScriptRoot '..\assets\fonts'
+$ubuntuFont = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $fontRoot 'Ubuntu-Medium.ttf')))
+$ubuntuMonoFont = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $fontRoot 'UbuntuMono-Bold.ttf')))
 
 function Escape([string]$Value) { [System.Security.SecurityElement]::Escape($Value) }
 function Render([hashtable]$Theme, [string]$Path) {
@@ -47,7 +50,7 @@ function Render([hashtable]$Theme, [string]$Path) {
     $svg = @"
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="$height" viewBox="0 0 840 $height" role="img" aria-label="Docker homelab status">
 <style>
-text{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif}.value{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:25px;font-weight:700;fill:$($Theme.accent)}.label{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:11px;font-weight:600;fill:$($Theme.faint)}.sub{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:12px;font-weight:500;fill:$($Theme.muted)}.pill{fill:$($Theme.accent);fill-opacity:.12;stroke:$($Theme.accent)}.pilltext{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif;font-size:11px;font-weight:600;fill:$($Theme.accent)}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
+@font-face{font-family:'Dashboard Ubuntu';src:url(data:font/ttf;base64,$ubuntuFont) format('truetype');font-weight:500}@font-face{font-family:'Dashboard Ubuntu Mono';src:url(data:font/ttf;base64,$ubuntuMonoFont) format('truetype');font-weight:700}text{font-family:'Dashboard Ubuntu','Ubuntu',system-ui,sans-serif}.value{font-family:'Dashboard Ubuntu Mono','Ubuntu Mono',ui-monospace,monospace;font-size:25px;font-weight:700;fill:$($Theme.accent)}.label{font-family:'Dashboard Ubuntu Mono','Ubuntu Mono',ui-monospace,monospace;font-size:11px;font-weight:700;fill:$($Theme.faint)}.sub{font-family:'Dashboard Ubuntu Mono','Ubuntu Mono',ui-monospace,monospace;font-size:12px;font-weight:700;fill:$($Theme.muted)}.pill{fill:$($Theme.accent);fill-opacity:.12;stroke:$($Theme.accent)}.pilltext{font-family:'Dashboard Ubuntu','Ubuntu',system-ui,sans-serif;font-size:11px;font-weight:500;fill:$($Theme.accent)}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
 </style>
 <rect x=".5" y=".5" width="839" height="$($height - 1)" rx="14" fill="$($Theme.bg)" stroke="$($Theme.line)"/>
 <rect width="840" height="2" rx="1" fill="$($Theme.accent)"/>
