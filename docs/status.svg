@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="422" viewBox="0 0 840 422" role="img" aria-label="Docker homelab status">
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.value{font:700 25px ui-monospace,monospace;fill:#1677b8}.label{font:600 11px ui-monospace,monospace;fill:#64748b}.sub{font:500 12px ui-monospace,monospace;fill:#475569}.pill{fill:#1677b8;fill-opacity:.12;stroke:#1677b8}.pilltext{font:600 11px ui-monospace,monospace;fill:#1677b8}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
+</style>
+<rect x=".5" y=".5" width="839" height="421" rx="14" fill="#f8fafc" stroke="#dbe4ea"/>
+<rect width="840" height="2" rx="1" fill="#1677b8"/>
+<circle class="pulse" cx="47" cy="38" r="5" fill="#1677b8"/><text x="61" y="42" class="label">DOCKER · LIVE</text>
+<text x="798" y="42" class="sub" text-anchor="end">docker-desktop · Docker 29.4.0</text>
+<text x='42' y='105' class='value'>44/47</text><text x='42' y='128' class='label'>CONTAINERS</text><text x='42' y='148' class='sub'>running</text>
+<text x='240' y='105' class='value'>26</text><text x='240' y='128' class='label'>COMPOSE PROJECTS</text><text x='240' y='148' class='sub'>declared</text>
+<text x='438' y='105' class='value'>20</text><text x='438' y='128' class='label'>HEALTHY</text><text x='438' y='148' class='sub'>0 unhealthy</text>
+<text x='636' y='105' class='value'>46</text><text x='636' y='128' class='label'>IMAGES</text><text x='636' y='148' class='sub'>distinct</text>
+<line x1="42" y1="174" x2="798" y2="174" stroke="#dbe4ea"/>
+<text x="42" y="202" class="label">COMPOSE PROJECTS</text>
+<rect x='42' y='220' width='72' height='27' rx='13.5' class='pill'/><text x='78' y='238' class='pilltext' text-anchor='middle'>atlas</text>
+<rect x='123' y='220' width='141' height='27' rx='13.5' class='pill'/><text x='193.5' y='238' class='pilltext' text-anchor='middle'>azerothcore-wotlk</text>
+<rect x='273' y='220' width='72' height='27' rx='13.5' class='pill'/><text x='309' y='238' class='pilltext' text-anchor='middle'>datadog</text>
+<rect x='354' y='220' width='99' height='27' rx='13.5' class='pill'/><text x='403.5' y='238' class='pilltext' text-anchor='middle'>datadog-gpu</text>
+<rect x='462' y='220' width='78' height='27' rx='13.5' class='pill'/><text x='501' y='238' class='pilltext' text-anchor='middle'>dockhand</text>
+<rect x='549' y='220' width='78' height='27' rx='13.5' class='pill'/><text x='588' y='238' class='pilltext' text-anchor='middle'>fail2ban</text>
+<rect x='636' y='220' width='106' height='27' rx='13.5' class='pill'/><text x='689' y='238' class='pilltext' text-anchor='middle'>flaresolverr</text>
+<rect x='42' y='258' width='72' height='27' rx='13.5' class='pill'/><text x='78' y='276' class='pilltext' text-anchor='middle'>frigate</text>
+<rect x='123' y='258' width='120' height='27' rx='13.5' class='pill'/><text x='183' y='276' class='pilltext' text-anchor='middle'>frigate-notify</text>
+<rect x='252' y='258' width='72' height='27' rx='13.5' class='pill'/><text x='288' y='276' class='pilltext' text-anchor='middle'>gluetun</text>
+<rect x='333' y='258' width='72' height='27' rx='13.5' class='pill'/><text x='369' y='276' class='pilltext' text-anchor='middle'>immich</text>
+<rect x='414' y='258' width='78' height='27' rx='13.5' class='pill'/><text x='453' y='276' class='pilltext' text-anchor='middle'>iptv-epg</text>
+<rect x='501' y='258' width='78' height='27' rx='13.5' class='pill'/><text x='540' y='276' class='pilltext' text-anchor='middle'>jellyfin</text>
+<rect x='588' y='258' width='72' height='27' rx='13.5' class='pill'/><text x='624' y='276' class='pilltext' text-anchor='middle'>kavita</text>
+<rect x='669' y='258' width='72' height='27' rx='13.5' class='pill'/><text x='705' y='276' class='pilltext' text-anchor='middle'>koito</text>
+<rect x='42' y='296' width='72' height='27' rx='13.5' class='pill'/><text x='78' y='314' class='pilltext' text-anchor='middle'>maloja</text>
+<rect x='123' y='296' width='120' height='27' rx='13.5' class='pill'/><text x='183' y='314' class='pilltext' text-anchor='middle'>multiscrobbler</text>
+<rect x='252' y='296' width='106' height='27' rx='13.5' class='pill'/><text x='305' y='314' class='pilltext' text-anchor='middle'>musicgrabber</text>
+<rect x='367' y='296' width='85' height='27' rx='13.5' class='pill'/><text x='409.5' y='314' class='pilltext' text-anchor='middle'>navidrome</text>
+<rect x='461' y='296' width='141' height='27' rx='13.5' class='pill'/><text x='531.5' y='314' class='pilltext' text-anchor='middle'>nginxproxy-docker</text>
+<rect x='611' y='296' width='92' height='27' rx='13.5' class='pill'/><text x='657' y='314' class='pilltext' text-anchor='middle'>open-webui</text>
+<rect x='712' y='296' width='85' height='27' rx='13.5' class='pill'/><text x='754.5' y='314' class='pilltext' text-anchor='middle'>paperless</text>
+<rect x='42' y='334' width='72' height='27' rx='13.5' class='pill'/><text x='78' y='352' class='pilltext' text-anchor='middle'>plex</text>
+<rect x='123' y='334' width='72' height='27' rx='13.5' class='pill'/><text x='159' y='352' class='pilltext' text-anchor='middle'>qbitui</text>
+<rect x='204' y='334' width='72' height='27' rx='13.5' class='pill'/><text x='240' y='352' class='pilltext' text-anchor='middle'>tautuli</text>
+<rect x='285' y='334' width='78' height='27' rx='13.5' class='pill'/><text x='324' y='352' class='pilltext' text-anchor='middle'>trillium</text>
+<text x="42" y="397" class="sub">source · local Docker API · generated 2026-08-21 11:23 -04:00</text>
+</svg>

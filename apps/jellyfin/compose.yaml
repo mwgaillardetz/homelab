@@ -1,0 +1,79 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.4
+    container_name: jellyfin
+    ports:
+    - '5096:8096'
+    volumes:
+      - ./config:/config
+      - jellyfin-cache:/cache
+      # - type: bind
+      #   source: /path/to/media
+      #   target: /media
+      # - type: bind
+      #   source: /path/to/media2
+      #   target: /media2
+      #   read_only: true
+      # # Optional - extra fonts to be used during transcoding with subtitle burn-in
+      # - type: bind
+      #   source: /path/to/fonts
+      #   target: /usr/local/share/fonts/custom
+      #   read_only: true
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    environment:
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.robo54.com
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TZ=America/New_York
+      # Route Firefox traffic through Gluetun proxy
+      # - http_proxy=http://gluetun:8888
+      # - https_proxy=http://gluetun:8888
+      # - NO_PROXY=localhost,127.0.0.1,192.168.1.160
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # jellyfin-dev:
+  #   image: jellyfin/jellyfin:10.11.4
+  #   container_name: jellyfin-dev
+  #   ports:
+  #   - '6096:8096'
+  #   volumes:
+  #     - ./jellyfin-dev/config:/config
+  #     - jellyfin-dev-cache:/cache
+
+  #     # - type: bind
+  #     #   source: /path/to/media
+  #     #   target: /media
+  #     # - type: bind
+  #     #   source: /path/to/media2
+  #     #   target: /media2
+  #     #   read_only: true
+  #     # # Optional - extra fonts to be used during transcoding with subtitle burn-in
+  #     # - type: bind
+  #     #   source: /path/to/fonts
+  #     #   target: /usr/local/share/fonts/custom
+  #     #   read_only: true
+  #   restart: 'always'
+  #   # Optional - alternative address used for autodiscovery
+  #   environment:
+  #     - JELLYFIN_PublishedServerUrl=https://jellyfin.robo54.com
+  #     - NVIDIA_DRIVER_CAPABILITIES=all
+  #     - NVIDIA_VISIBLE_DEVICES=all
+  #     - TZ=America/New_York
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all
+  #             capabilities: [gpu]
+
+volumes:
+  jellyfin-cache:
+  jellyfin-dev-cache:

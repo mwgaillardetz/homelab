@@ -1,0 +1,11 @@
+services:
+  tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: tautulli
+    restart: always
+    volumes:
+      - ./config:/config
+    environment:
+      - TZ=America/New_York
+    ports:
+      - 8181:8181

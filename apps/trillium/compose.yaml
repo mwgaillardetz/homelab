@@ -1,0 +1,10 @@
+services:
+  trilium:
+    image: triliumnext/notes:latest
+    restart: always
+    environment:
+      - TZ=America/New_York
+    ports:
+      - "3080:8080"
+    volumes:
+      - ./trillium:/home/node/trilium-data

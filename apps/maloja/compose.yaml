@@ -1,0 +1,22 @@
+services:
+  maloja:
+    # from dockerhub
+    image: "krateng/maloja:latest"
+    # or built locally
+    #build:
+    #  context: .
+    #  dockerfile: ./Containerfile
+    ports:
+    - "42010:42010"
+    # different directories for configuration, state and logs
+    volumes:
+    #- "$PWD/config:/etc/maloja"
+    #- "$PWD/data:/var/lib/maloja"
+    #- "$PWD/logs:/var/log/maloja"
+    #you can also have everything together instead:
+    #volumes:
+    - "./data:/data"
+    restart: always
+    environment:
+    - "MALOJA_DATA_DIRECTORY=/data"
+    - "MALOJA_FORCE_PASSWORD=${MALOJA_FORCE_PASSWORD}"

@@ -1,0 +1,349 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=10.65.1.8/32
+      - TZ=America/New_York
+      - SERVER_COUNTRIES=USA
+      - SERVER_CITIES="Boston, MA,Secaucus, NJ,New York NY,Washington DC"
+      - HTTPPROXY=on
+      - HTTPPROXY_LISTENING_ADDRESS=:8888
+      - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+    volumes:
+      - ./gluetun:/gluetun
+    ports:
+      - "8888:8888/tcp"  # HTTP proxy
+      - "8388:8388/tcp"  # Shadowsocks
+      - "8388:8388/udp"  # Shadowsocks
+      - "5021:5021"      # qBittorrent Web UI (exposed via Gluetun)
+      - "5800:5800"      # Firefox
+      # - "9192:9191"      # dispatcharr2
+      - "6080:80"        # wordpress
+      - "5055:5055"      # Overseerr
+      - "6596:6595"      # Deemix
+      - "7576:7575"      # Homarr
+      - "9925:9000"      # Mealie
+      - "5030:5030"      # slskd
+      - "5031:5031"      # slskd
+      - "5032:50300"     # slskd
+
+    restart: always
+    networks:
+      - gluetun_net
+
+  gluetun2:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun2
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - SERVER_COUNTRIES=USA
+      - SERVER_CITIES="Boston, MA,Secaucus, NJ,New York NY,Washington DC"
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=10.73.157.51/32
+      - TZ=America/New_York
+      - HTTPPROXY=on
+      - HTTPPROXY_LISTENING_ADDRESS=:8888
+      - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+    volumes:
+      - ./gluetun2:/gluetun
+    ports:
+      - "8889:8888/tcp"  # HTTP proxy
+      - "8389:8388/tcp"  # Shadowsocks
+      - "8389:8388/udp"  # Shadowsocks
+      - "9192:9191"      # dispatcharr2
+
+    restart: always
+    networks:
+      - gluetun_net
+
+  # gluetun3:
+  #   image: qmcgaw/gluetun:latest
+  #   container_name: gluetun3
+  #   cap_add:
+  #     - NET_ADMIN
+  #   devices:
+  #     - /dev/net/tun:/dev/net/tun
+  #   environment:
+  #     - VPN_SERVICE_PROVIDER=mullvad
+  #     - VPN_TYPE=wireguard
+  #     - SERVER_COUNTRIES=Finland
+  #     - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+  #     - WIREGUARD_ADDRESSES=10.65.220.45/32
+  #     - TZ=America/New_York
+  #     - HTTPPROXY=on
+  #     - HTTPPROXY_LISTENING_ADDRESS=:8888
+  #     - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+  #   volumes:
+  #     - ./gluetun3:/gluetun
+  #   ports:
+  #     - "8890:8888/tcp"  # HTTP proxy
+  #     - "8390:8388/tcp"  # Shadowsocks
+  #     - "8390:8388/udp"  # Shadowsocks
+  #     - "9193:9191"      # dispatcharr3
+  #
+  #   restart: always
+  #   networks:
+  #     - gluetun_net
+
+  # ---- Apps sharing gluetun2's network namespace ------------------
+  dispatcharr2:
+    image: ghcr.io/dispatcharr/dispatcharr:latest
+    container_name: dispatcharr2
+    restart: always
+    network_mode: "service:gluetun2"
+    depends_on:
+      gluetun2:
+        condition: service_healthy
+    volumes:
+      - 'C:\docker-projects\dispatcharr\two\dispatcharr_data:/data'
+      - 'C:\docker-projects\dispatcharr\logos:/data/logos'
+      - 'C:\docker-projects\dispatcharr\scripts:/scripts'
+    environment:
+      - DISPATCHARR_ENV=aio
+      - TZ=America/New_York
+      - REDIS_HOST=localhost
+      - CELERY_BROKER_URL=redis://localhost:6379/0
+      - DISPATCHARR_LOG_LEVEL=info
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "dispatcharr", "service": "dispatcharr"}]'
+      com.datadoghq.ad.check_names: '["http_check"]'
+      com.datadoghq.ad.init_configs: '[{}]'
+      com.datadoghq.ad.instances: '[{"name": "dispatcharr2_health", "url": "http://%%host%%:9192", "timeout": 10, "tags": ["service:dispatcharr", "instance:dispatcharr2"]}]'
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9191"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # dispatcharr3:
+  #   image: ghcr.io/dispatcharr/dispatcharr:latest
+  #   container_name: dispatcharr3
+  #   restart: always
+  #   network_mode: "service:gluetun3"
+  #   depends_on:
+  #     gluetun3:
+  #       condition: service_healthy
+  #   volumes:
+  #     - 'C:\docker-projects\dispatcharr\three\dispatcharr_data:/data'
+  #     - 'C:\docker-projects\dispatcharr\logos:/data/logos'
+  #     - 'C:\docker-projects\dispatcharr\scripts:/scripts'
+  #   environment:
+  #     - DISPATCHARR_ENV=aio
+  #     - TZ=America/New_York
+  #     - REDIS_HOST=localhost
+  #     - CELERY_BROKER_URL=redis://localhost:6379/0
+  #     - DISPATCHARR_LOG_LEVEL=info
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all
+  #             capabilities: [gpu]
+  #   labels:
+  #     com.datadoghq.ad.logs: '[{"source": "dispatcharr", "service": "dispatcharr"}]'
+  #     com.datadoghq.ad.check_names: '["http_check"]'
+  #     com.datadoghq.ad.init_configs: '[{}]'
+  #     com.datadoghq.ad.instances: '[{"name": "dispatcharr3_health", "url": "http://%%host%%:9193", "timeout": 10, "tags": ["service:dispatcharr", "instance:dispatcharr3"]}]'
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9191"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+
+
+  # ---- Apps sharing gluetun's network namespace -------------------
+  db-wpmg:
+    image: mariadb:10.6.4-focal
+    container_name: wordpress-db-wpmg-1
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - wordpress_db_wpmg:/var/lib/mysql
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+  wordpress:
+    image: wordpress:6.9.0-php8.2-apache
+    container_name: wordpress-wordpress-1
+    volumes:
+      - wordpress_wp_wpmg:/var/www/html
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - WORDPRESS_DB_HOST=127.0.0.1
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME=wordpress
+
+  homarr2:
+    image: ghcr.io/homarr-labs/homarr:latest
+    container_name: homarr2
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - 'C:\docker-projects\homarr2\homarr\appdata:/appdata'
+    environment:
+      - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
+      - http_proxy=http://gluetun:8888
+      - https_proxy=http://gluetun:8888
+      - NO_PROXY=localhost,127.0.0.1
+
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:1.33.2
+    container_name: overseerr
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - TZ=America/New_York
+      - http_proxy=http://gluetun:8888
+      - https_proxy=http://gluetun:8888
+      - NO_PROXY=localhost,127.0.0.1
+    volumes:
+      - overseerr:/config
+
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v2.5.0
+    container_name: mealie
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 1500M
+    volumes:
+      - 'C:\docker-projects\mealie\mealie-data:/app/data/'
+    environment:
+      - ALLOW_SIGNUP=true
+      - TZ=America/New_York
+      - MAX_WORKERS=1
+      - WEB_CONCURRENCY=1
+      - BASE_URL=https://recipe.robo54.com
+
+  deemix:
+    image: ghcr.io/bambanah/deemix:v4.3.3
+    container_name: Deemix
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    volumes:
+      - M:\Music:/downloads
+      - 'C:\docker-projects\deemix\config:/config'
+    environment:
+      - DEEMIX_SINGLE_USER=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - DISABLE_OWNERSHIP_CHECK=true
+      - http_proxy=http://gluetun:8888
+      - https_proxy=http://gluetun:8888
+      - all_proxy=http://gluetun:8888
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - WEBUI_PORT=5021
+    volumes:
+      - 'C:\docker-projects\qbitorrent\appdata\qbittorrent:/config'
+      - M:\Downloads:/downloads
+      - M:\Software\OS-tools\kali-linux-2021.2a-installer-amd64\version7.0:/downloads/zest
+      - M:\Downloads\automation\incomplete:/downloads/incomplete
+
+  slskd:
+    image: slskd/slskd:latest
+    container_name: slskd
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+    volumes:
+      - 'C:\docker-projects\slskd\app:/app'
+      - M:\Downloads\automation\slskd:/Downloads
+      - M:\Downloads\automation\music\incomplete:/Downloads/incomplete
+      - M:\Music:/Music
+
+  firefox:
+    image: jlesage/firefox:latest
+    container_name: firefox
+    restart: always
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - TZ=America/New_York
+      - WEB_FILE_MANAGER=1
+      - DISPLAY_WIDTH=1280
+      - DISPLAY_HEIGHT=768
+    volumes:
+      - 'C:\docker-projects\firefox\firefox:/config:rw'
+      - M:\Downloads:/config/downloads
+
+volumes:
+  wordpress_wp_wpmg:
+    name: wordpress_wp_wpmg
+  wordpress_db_wpmg:
+    name: wordpress_db_wpmg
+  overseerr:
+    external: true
+
+networks:
+  gluetun_net:
+    name: gluetun_net
+    driver: bridge

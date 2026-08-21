@@ -1,0 +1,21 @@
+services:
+  atlas:
+    image: keinstien/atlas:latest
+    container_name: atlas
+    #network_mode: host
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    ports:
+      - "8886:8884"
+      - "8887:8885"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      ATLAS_UI_PORT: "8884"
+      ATLAS_API_PORT: "8885"
+      FASTSCAN_INTERVAL: "3600"
+      DOCKERSCAN_INTERVAL: "3600"
+      DEEPSCAN_INTERVAL: "7200"
+      SCAN_SUBNETS: "192.168.1.0/24,10.0.0.0/24"
+    restart: unless-stopped

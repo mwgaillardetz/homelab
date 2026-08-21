@@ -1,0 +1,51 @@
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker:latest
+    restart: always
+    ports:
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    environment:
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - TZ=America/New_York
+      - PLEX_CLAIM=claim-cKumQmx2Niup-gV9dxzm
+      - DISABLE_HEALTHCHECK=false
+      - DD_AGENT_HOST=agent
+      - DD_SERVICE=plex
+      - DD_VERSION=1.0
+      - DD_LOGS_INJECTION=true
+      - DD_TRACE_SAMPLE_RATE=1
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "plex", "service": "plex"}]'
+      com.datadoghq.ad.check_names: '["http_check"]'
+      com.datadoghq.ad.init_configs: '[{}]'
+      com.datadoghq.ad.instances: '[{"name": "plex_health", "url": "http://%%host%%:32400/web", "timeout": 10, "tags": ["service:plex"]}]'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://192.168.1.160:32400/web"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      - T:\toasty:/media
+      - M:\Music:/media/music
+      - plex:/config
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  plex:
+    external: true

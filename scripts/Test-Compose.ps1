@@ -14,7 +14,11 @@ if ($files.Count -eq 0) {
 $failed = $false
 foreach ($file in $files) {
     Write-Host "Validating $($file.FullName)"
-    & docker compose --file $file.FullName config --quiet
+    $example = Join-Path $file.DirectoryName '.env.example'
+    $arguments = @('compose')
+    if (Test-Path -LiteralPath $example) { $arguments += @('--env-file', $example) }
+    $arguments += @('--file', $file.FullName, 'config', '--quiet', '--no-env-resolution', '--no-path-resolution')
+    & docker @arguments
     if ($LASTEXITCODE -ne 0) { $failed = $true }
 }
 

@@ -1,0 +1,32 @@
+services:
+  fail2ban:
+    image: lscr.io/linuxserver/fail2ban:latest
+    container_name: fail2ban
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - TZ=America/New_York
+      - VERBOSITY=-vv
+    volumes:
+      - ./config:/config
+      - ./var/log:/var/log:ro
+      - ./run:/var/run/fail2ban
+      - C:\docker-projects\nginxproxy-docker\data\logs:/remotelogs/nginx:ro
+      - C:\docker-projects\overseerr\config\logs:/remotelogs/overseerr:ro
+    restart: unless-stopped
+
+  # fail2ban-ui:
+  #   image: swissmakers/fail2ban-ui:latest
+  #   container_name: fail2ban-ui
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - NET_RAW
+  #   environment:
+  #     - PORT=3980
+  #     - DISABLE_EXTERNAL_IP_LOOKUP=true
+  #     - CALLBACK_URL=http://192.168.1.160:3980
+  #   volumes:
+  #     - ./config:/config
+  #     - ./run:/var/run/fail2ban
+  #   restart: unless-stopped

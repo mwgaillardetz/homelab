@@ -1,0 +1,55 @@
+---
+services:
+  dd-agent:
+    image: public.ecr.aws/datadog/agent:latest
+    container_name: dd-agent
+    pid: host
+    cgroup: host
+    environment:
+      DD_SITE: datadoghq.com
+      DD_API_KEY: ${DD_API_KEY}"
+      DD_PROCESS_CONFIG_PROCESS_COLLECTION_ENABLED: "true"
+      DD_LOGS_ENABLED: "true"
+      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: "true"
+      DD_APM_ENABLED: "true"
+      DD_APM_NON_LOCAL_TRAFFIC: "true"
+      # Enable these only if you specifically want to test them in WSL2:
+      DD_SYSTEM_PROBE_ENABLED: "true"
+      DD_SYSTEM_PROBE_SERVICE_MONITORING_ENABLED: "true"
+    # network_mode: "host"
+    ports:
+      - "8626:8126/tcp"   # APM
+      - "8625:8125/udp"   # DogStatsD
+      - "8617:4317/tcp" # OTLP gRPC
+      - "8618:4318/tcp" # OTLP HTTP
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      # - /sys/kernel/debug:/sys/kernel/debug
+      # - /lib/modules:/lib/modules:ro
+      # - /usr/src:/usr/src:ro
+      # - /var/tmp/datadog-agent/system-probe/build:/var/tmp/datadog-agent/system-probe/build
+      # - /var/tmp/datadog-agent/system-probe/kernel-headers:/var/tmp/datadog-agent/system-probe/kernel-headers
+      # - /etc/apt:/host/etc/apt:ro
+      # - /etc/yum.repos.d:/host/etc/yum.repos.d:ro
+      # - /etc/zypp:/host/etc/zypp:ro
+      # - /etc/pki:/host/etc/pki:ro
+      # - /etc/yum/vars:/host/etc/yum/vars:ro
+      # - /etc/dnf/vars:/host/etc/dnf/vars:ro
+      # - /etc/rhsm:/host/etc/rhsm:ro
+      # - /etc/os-release:/etc/host/os-release:ro
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - SYS_PTRACE
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW
+      - IPC_LOCK
+      - CHOWN
+    security_opt:
+      - apparmor:unconfined
+    labels:
+      com.datadoghq.ad.logs: '[{"source":"datadog-agent","service":"agent"}]'
+    restart: always

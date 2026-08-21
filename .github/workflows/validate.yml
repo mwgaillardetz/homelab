@@ -16,6 +16,13 @@ jobs:
       - name: Validate Compose files
         shell: pwsh
         run: ./scripts/Test-Compose.ps1
+      - name: Enforce private project exclusion
+        shell: bash
+        run: |
+          if grep -Ril --exclude='.inventoryignore' --exclude='Import-Compose.ps1' --exclude='Export-Dashboard.ps1' --exclude='Export-Inventory.ps1' 'stash' apps docs; then
+            echo 'Excluded project appeared in a public artifact.'
+            exit 1
+          fi
 
   secrets:
     runs-on: ubuntu-latest

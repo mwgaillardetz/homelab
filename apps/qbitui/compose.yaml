@@ -1,0 +1,23 @@
+services:
+  qbitwebui:
+    image: ghcr.io/maciejonos/qbitwebui:latest
+    ports:
+      - "3250:3000"
+    environment:
+      # Generate your own: openssl rand -hex 32
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      # Uncomment to disable login (single-user mode)
+      - DISABLE_AUTH=true
+      # Uncomment to disable registration (creates default admin account)
+      # - DISABLE_REGISTRATION=true
+      # Uncomment to allow HTTPS with self-signed certificates
+      # - ALLOW_SELF_SIGNED_CERTS=true
+      # Uncomment to enable file browser
+      - DOWNLOADS_PATH=/downloads
+    volumes:
+      - ./data:/data
+      # Uncomment to enable file browser
+      - m:/downloads:/downloads
+      # Or mount read-write to (read-only: browse & download only)
+      # - /path/to/your/downloads:/downloads:ro
+    restart: unless-stopped

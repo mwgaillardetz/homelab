@@ -1,0 +1,9 @@
+services:
+  iptv-epg:
+    image: ghcr.io/iptv-org/epg:master
+    container_name: iptv-epg
+    ports:
+      - "7776:3000"
+    volumes:
+      - ./channels.xml:/epg/public/channels.xml
+    restart: unless-stopped

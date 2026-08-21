@@ -1,0 +1,30 @@
+services:
+    kavita:
+        image: jvmilazz0/kavita:latest
+        container_name: kavita
+        volumes:
+            - M:\TheVault\Gotham-Library\Manga:/manga
+            - M:\TheVault\Gotham-Library\Comics:/comics
+            - M:\TheVault\Gotham-Library\Novels:/books
+            - M:\TheVault\Gotham-Library\Self-improvement:/Self-improvement
+            - M:\TheVault\Gotham-Library\Tech:/Tech
+            - M:\TheVault\Gotham-Library\cook-books:/Cook-books
+            - M:\TheVault\Gotham-Library\Magazines:/Magazines
+            - ./config:/kavita/config     # /kavita/config must not be changed
+        environment:
+            - TZ=America/New_York
+            - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+        labels:
+            com.datadoghq.ad.logs: '[{"source": "kavita", "service": "kavita"}]'
+            com.datadoghq.ad.check_names: '["http_check"]'
+            com.datadoghq.ad.init_configs: '[{}]'
+            com.datadoghq.ad.instances: '[{"name": "kavita_health", "url": "http://%%host%%:5000/api/health", "timeout": 10, "tags": ["service:kavita"]}]'
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
+        ports:
+            - "5090:5000"
+        restart: always

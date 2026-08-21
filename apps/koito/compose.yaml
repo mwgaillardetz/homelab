@@ -1,0 +1,9 @@
+services:
+  koito:
+    image: gabehf/koito:latest
+    container_name: koito
+    restart: always
+    ports:
+      - "4110:4110"
+    volumes:
+      - ./koito:/etc/koito
