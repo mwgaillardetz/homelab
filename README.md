@@ -1,11 +1,7 @@
 # Docker Homelab
 
-Declarative documentation and, over time, Compose definitions for the Docker
+Declarative documentation Compose definitions for my Docker
 homelab running locally on Docker Desktop.
-
-The repository is intentionally safe to publish: runtime inventory contains no
-container environment values, secret files, bind-mount contents, or Docker
-inspect payloads.
 
 ## Current state
 
@@ -42,9 +38,3 @@ secret values, container logs, or mounted file contents.
 ```powershell
 ./scripts/Test-Compose.ps1
 ```
-
-## Migration rule
-
-Never copy a live Compose file directly into Git. Replace sensitive literals
-with variable references, provide only an `.env.example`, and validate the
-rendered model before committing.
