@@ -47,7 +47,7 @@ function Render([hashtable]$Theme, [string]$Path) {
     $svg = @"
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="$height" viewBox="0 0 840 $height" role="img" aria-label="Docker homelab status">
 <style>
-text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.value{font:700 25px ui-monospace,monospace;fill:$($Theme.accent)}.label{font:600 11px ui-monospace,monospace;fill:$($Theme.faint)}.sub{font:500 12px ui-monospace,monospace;fill:$($Theme.muted)}.pill{fill:$($Theme.accent);fill-opacity:.12;stroke:$($Theme.accent)}.pilltext{font:600 11px ui-monospace,monospace;fill:$($Theme.accent)}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
+text{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif}.value{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:25px;font-weight:700;fill:$($Theme.accent)}.label{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:11px;font-weight:600;fill:$($Theme.faint)}.sub{font-family:'Ubuntu Mono',ui-monospace,monospace;font-size:12px;font-weight:500;fill:$($Theme.muted)}.pill{fill:$($Theme.accent);fill-opacity:.12;stroke:$($Theme.accent)}.pilltext{font-family:'Ubuntu Sans','Ubuntu',system-ui,sans-serif;font-size:11px;font-weight:600;fill:$($Theme.accent)}.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.3}}
 </style>
 <rect x=".5" y=".5" width="839" height="$($height - 1)" rx="14" fill="$($Theme.bg)" stroke="$($Theme.line)"/>
 <rect width="840" height="2" rx="1" fill="$($Theme.accent)"/>
